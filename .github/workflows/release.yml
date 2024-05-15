@@ -6,9 +6,12 @@ on:
 
 jobs:
 
-  build-n-publish:
-    name: Build and publish Python 🐍distributions 📦 to PyPI
+  pypi-publish:
+    name: Upload release to PyPI
     runs-on: ubuntu-22.04
+    environment: release
+    permissions:
+      id-token: write
     steps:
     - uses: actions/checkout@v4.1.5
     - name: Set up Python
@@ -21,8 +24,5 @@ jobs:
     - name: Build package
       run: hatch build
 
-    - name: Publish package
-      run: hatch publish -n
-      env:
-        HATCH_INDEX_USER: __token__
-        HATCH_INDEX_AUTH: ${{ secrets.PYPI_TOKEN }}
+    - name: Publish package distributions to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
