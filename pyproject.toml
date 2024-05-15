@@ -112,4 +112,3 @@ known-third-party = ["hypothesis", "pytest"]
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
-

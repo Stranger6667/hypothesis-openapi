@@ -47,13 +47,13 @@ MediaType = (
 class Swagger:
     swagger: Literal["2.0"]
     info: Info
-    host: Pattern["^[^{}/ :\\\\]+(?::\\d+)?$"] | Missing
-    basePath: Pattern["^/"] | Missing
-    paths: dict[Pattern["^/"], PathItem | PathItemReference]
+    host: Pattern["^[^{}/ :\\\\]+(?::\\d+)?$"] | Missing  # type: ignore[type-arg,valid-type]
+    basePath: Pattern["^/"] | Missing  # type: ignore[type-arg,valid-type]
+    paths: dict[Pattern["^/"], PathItem | PathItemReference]  # type: ignore[type-arg,valid-type]
     consumes: MediaTypeList | Missing
     produces: MediaTypeList | Missing
-    parameters: CombinedDict[str, Parameter, {"SampleParameter": PARAMETER_SAMPLE}]
-    responses: CombinedDict[ResponseId, Response, {"Success": RESPONSE_SUCCESS}]
+    parameters: CombinedDict[str, Parameter, {"SampleParameter": PARAMETER_SAMPLE}]  # type: ignore[type-arg,valid-type]
+    responses: CombinedDict[ResponseId, Response, {"Success": RESPONSE_SUCCESS}]  # type: ignore[type-arg,valid-type]
     definitions: Definitions
 
     def map_value(self, value: dict[str, Any]) -> dict[str, Any]:
@@ -93,7 +93,7 @@ class PathItem:
 class Operation:
     operationId: str | Missing
     parameters: ParameterList | Missing
-    tags: UniqueList[str] | Missing
+    tags: UniqueList[str] | Missing  # type: ignore[type-arg,valid-type]
     consumes: MediaTypeList | Missing
     produces: MediaTypeList | Missing
     responses: dict[ResponseId, Response]
@@ -199,5 +199,5 @@ class FormDataParameter:
 
 Parameter = BodyParameter | QueryParameter | HeaderParameter | PathParameter | FormDataParameter
 ParameterList = list[Parameter | ParameterReference]
-MediaTypeList: TypeAlias = UniqueList[MediaType]
-ResponseId: TypeAlias = Pattern["^([0-9]{3})$|^(default)$"]
+MediaTypeList: TypeAlias = UniqueList[MediaType]  # type: ignore[type-arg]
+ResponseId: TypeAlias = Pattern["^([0-9]{3})$|^(default)$"]  # type: ignore[type-arg,valid-type]
