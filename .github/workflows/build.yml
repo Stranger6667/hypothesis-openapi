@@ -1,0 +1,71 @@
+name: build
+
+on:
+  pull_request:
+    paths:
+      - '**.py'
+      - '.github/workflows/*.yml'
+      - '.pre-commit-config.yaml'
+      - 'pyproject.toml'
+      - 'tox.ini'
+      - 'mypy.ini'
+  push:
+    branches:
+      - main
+
+jobs:
+  pre-commit:
+    name: Generic pre-commit checks
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4.1.5
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - run: pip install pre-commit
+      - run: SKIP=mypy pre-commit run --all-files
+
+  mypy:
+    name: Mypy
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4.1.5
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - run: pip install pre-commit
+      - run: pre-commit run mypy --all-files
+
+  tests:
+    strategy:
+      matrix:
+        os: [ubuntu-22.04]
+        python: ["3.10", "3.11", "3.12"]
+
+    name: ${{ matrix.os }}/tests_${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4.1.5
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - run: pip install tox tox-gh-actions
+
+      - run: python -m tox
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4.3.0
+        with:
+          name: codecov-${{ matrix.python }}

@@ -1,0 +1,28 @@
+name: Post-release jobs
+
+on:
+  release:
+    types: [published]
+
+jobs:
+
+  build-n-publish:
+    name: Build and publish Python 🐍distributions 📦 to PyPI
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v4.1.5
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.10"
+
+    - run: pip install hatch
+
+    - name: Build package
+      run: hatch build
+
+    - name: Publish package
+      run: hatch publish -n
+      env:
+        HATCH_INDEX_USER: __token__
+        HATCH_INDEX_AUTH: ${{ secrets.PYPI_TOKEN }}

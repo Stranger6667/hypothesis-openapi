@@ -1,0 +1,115 @@
+[project]
+name = "hypothesis-openapi"
+version = "0.11.0"
+description = "Hypothesis plugin for generating valid Open API documents"
+keywords = ["hypothesis", "openapi", "testing"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Framework :: Hypothesis",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: Software Development :: Testing",
+]
+authors = [{ name = "Dmitry Dygalo", email = "dmitry@dygalo.dev" }]
+maintainers = [{ name = "Dmitry Dygalo", email = "dmitry@dygalo.dev" }]
+readme = "README.md"
+license = "MIT"
+include = ["src/hypothesis_openapi/py.typed"]
+requires-python = ">=3.10"
+dependencies = [
+    "hypothesis>=6.84.3,<7.0",
+]
+
+[project.optional-dependencies]
+tests = [
+    "coverage>=7",
+    "jsonschema>=4.21.0",
+    "pytest>=6.2.0,<8",
+    "pytest-xdist>=2.5,<3.0",
+]
+cov = [
+    "coverage-enable-subprocess",
+    "coverage[toml]>=7",
+]
+dev = ["hypothesis_openapi[tests,cov]"]
+
+[project.urls]
+Changelog = "https://github.com/Stranger6667/hypothesis-openapi/blob/main/CHANGELOG.md"
+"Bug Tracker" = "https://github.com/Stranger6667/hypothesis-openapi"
+Funding = "https://github.com/sponsors/Stranger6667"
+"Source Code" = "https://github.com/Stranger6667/hypothesis-openapi"
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "/src",
+  "/test",
+]
+
+[tool.coverage.run]
+parallel = true
+branch = true
+source_pkgs = ["hypothesis_openapi"]
+
+[tool.coverage.paths]
+source = ["src", ".tox/*/site-packages"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+precision = 2
+exclude_lines = [
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+    "pass"
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "C",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+    "D",  # pydocstyle
+]
+ignore = [
+    "E501",  # Line too long
+    "B008",  # Do not perform function calls in argument defaults
+    "C901",  # Too complex
+    "D100",  # Missing docstring in public module
+    "D101",  # Missing docstring in public class
+    "D102",  # Missing docstring in public method
+    "D103",  # Missing docstring in public function
+    "D104",  # Missing docstring in public package
+    "D105",  # Missing docstring in magic method
+    "D107",  # Missing docstring in `__init__`
+    "D203",  # One blank line before class
+    "D213",  # Multiline summary second line
+    "D401",  # Imperative mood
+]
+
+[tool.ruff.format]
+skip-magic-trailing-comma = false
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["hypothesis_openapi"]
+known-third-party = ["hypothesis", "pytest"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
