@@ -50,7 +50,7 @@ jobs:
         os: [ubuntu-22.04]
         python: ["3.10", "3.11", "3.12"]
 
-    name: ${{ matrix.os }}/tests_${{ matrix.python }}
+    name: Tests on ${{ matrix.python }}
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4.1.5
@@ -70,4 +70,3 @@ jobs:
         with:
           name: codecov-${{ matrix.python }}
           token: ${{ secrets.CODECOV_TOKEN }}
-
