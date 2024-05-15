@@ -69,3 +69,5 @@ jobs:
         uses: codecov/codecov-action@v4.4.0
         with:
           name: codecov-${{ matrix.python }}
+          token: ${{ secrets.CODECOV_TOKEN }}
+
