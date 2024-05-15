@@ -24,6 +24,9 @@ class ParameterReference:
         value["$ref"] = "#/parameters/SampleParameter"
         return value
 
+    def __hash__(self) -> int:
+        return hash(("$ref", "#/parameters/SampleParameter"))
+
 
 @dataclass
 class ResponseReference:
@@ -83,11 +86,6 @@ class PathItem:
     patch: Operation | Missing
     parameters: ParameterList | Missing
 
-    def map_value(self, value: dict[str, Any]) -> dict[str, Any]:
-        if "parameters" in value:
-            value["parameters"] = deduplicate_parameters(value["parameters"])
-        return value
-
 
 @dataclass
 class Operation:
@@ -101,29 +99,7 @@ class Operation:
     def map_value(self, value: dict[str, Any]) -> dict[str, Any]:
         if not value["responses"]:
             value["responses"] = {"default": RESPONSE_SUCCESS}
-        if "parameters" in value:
-            value["parameters"] = deduplicate_parameters(value["parameters"])
         return value
-
-
-def deduplicate_parameters(parameters: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    # TODO: modify in-place
-    parameter_names = set()
-    deduplicated = []
-    has_reference = False
-    for parameter in parameters:
-        if "$ref" in parameter:
-            if has_reference:
-                continue
-            has_reference = True
-            deduplicated.append(parameter)
-        else:
-            name = parameter["name"]
-            if name in parameter_names:
-                continue
-            parameter_names.add(name)
-            deduplicated.append(parameter)
-    return deduplicated
 
 
 @dataclass
@@ -198,6 +174,6 @@ class FormDataParameter:
 
 
 Parameter = BodyParameter | QueryParameter | HeaderParameter | PathParameter | FormDataParameter
-ParameterList = list[Parameter | ParameterReference]
+ParameterList: TypeAlias = UniqueList[Parameter | ParameterReference]  # type: ignore[type-arg]
 MediaTypeList: TypeAlias = UniqueList[MediaType]  # type: ignore[type-arg]
 ResponseId: TypeAlias = Pattern["^([0-9]{3})$|^(default)$"]  # type: ignore[type-arg,valid-type]
