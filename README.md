@@ -1,6 +1,6 @@
 # hypothesis-openapi
 
-[![Build](https://github.com/Stranger6667/hypothesis-openapi/workflows/ci/badge.svg)](https://github.com/Stranger6667/hypothesis-main/actions)
+[![CI](https://github.com/Stranger6667/hypothesis-openapi/actions/workflows/ci.yml/badge.svg)](https://github.com/Stranger6667/hypothesis-openapi/actions/workflows/ci.yml)
 [![Coverage](https://codecov.io/gh/Stranger6667/hypothesis-openapi/branch/main/graph/badge.svg)](https://codecov.io/gh/Stranger6667/hypothesis-openapi/branch/main)
 [![Version](https://img.shields.io/pypi/v/hypothesis-openapi.svg)](https://pypi.org/project/hypothesis-openapi/)
 [![Python versions](https://img.shields.io/pypi/pyversions/hypothesis-openapi.svg)](https://pypi.org/project/hypothesis-openapi/)
