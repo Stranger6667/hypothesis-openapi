@@ -94,7 +94,7 @@ class Operation:
     tags: UniqueList[str] | Missing  # type: ignore[type-arg,valid-type]
     consumes: MediaTypeList | Missing
     produces: MediaTypeList | Missing
-    responses: dict[ResponseId, Response]
+    responses: dict[ResponseId, Response | ResponseReference]
 
     def map_value(self, value: dict[str, Any]) -> dict[str, Any]:
         if not value["responses"]:
