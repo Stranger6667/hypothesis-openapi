@@ -1,0 +1,27 @@
+name: Benchmarks
+
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  benchmarks:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4.1.5
+      - uses: actions/setup-python@v5
+        with:
+          # Python 3.12 for flamegraph support
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install ".[bench]"
+
+      - name: Run benchmarks
+        uses: CodSpeedHQ/action@v2
+        with:
+          token: ${{ secrets.CODSPEED_TOKEN }}
+          run: pytest benches/* --codspeed

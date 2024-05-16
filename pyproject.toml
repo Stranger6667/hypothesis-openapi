@@ -38,7 +38,10 @@ cov = [
     "coverage-enable-subprocess",
     "coverage[toml]>=7",
 ]
-dev = ["hypothesis_openapi[tests,cov]"]
+bench = [
+    "pytest-codspeed==2.2.1",
+]
+dev = ["hypothesis_openapi[tests,cov,bench]"]
 
 [project.urls]
 Changelog = "https://github.com/Stranger6667/hypothesis-openapi/blob/main/CHANGELOG.md"
