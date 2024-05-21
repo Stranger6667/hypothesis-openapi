@@ -6,6 +6,9 @@
 
 - Generating response references inside operations in Open API 2.0
 
+**Fixed**
+
+- Allow generating parameters with the same name buy different locations
 
 ## [0.1.0] - 2024-05-15
 

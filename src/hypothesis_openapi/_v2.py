@@ -117,7 +117,7 @@ class BodyParameter:
         return value
 
     def __hash__(self) -> int:
-        return hash(self.name)
+        return hash((self.name, "body"))
 
 
 @dataclass
@@ -130,7 +130,7 @@ class QueryParameter:
         return value
 
     def __hash__(self) -> int:
-        return hash(self.name)
+        return hash((self.name, "query"))
 
 
 @dataclass
@@ -143,7 +143,7 @@ class HeaderParameter:
         return value
 
     def __hash__(self) -> int:
-        return hash(self.name)
+        return hash((self.name, "header"))
 
 
 @dataclass
@@ -157,7 +157,7 @@ class PathParameter:
         return value
 
     def __hash__(self) -> int:
-        return hash(self.name)
+        return hash((self.name, "path"))
 
 
 @dataclass
@@ -170,7 +170,7 @@ class FormDataParameter:
         return value
 
     def __hash__(self) -> int:
-        return hash(self.name)
+        return hash((self.name, "formData"))
 
 
 Parameter = BodyParameter | QueryParameter | HeaderParameter | PathParameter | FormDataParameter
