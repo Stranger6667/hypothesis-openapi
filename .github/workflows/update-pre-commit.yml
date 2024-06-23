@@ -26,4 +26,6 @@ jobs:
           title: Update pre-commit
           body: Automatically update pre-commit
           commit-message: 'chore: Update pre-commit'
+          committer: 'Stranger6667 <dmitry@dygalo.dev>'
+          author: 'Stranger6667 <dmitry@dygalo.dev>'
           branch: "create-pull-request/update-pre-commit"
