@@ -4,36 +4,19 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any, Literal, TypeAlias
 
+from ._common import (
+    PATH_ITEM_SAMPLE,
+    RESPONSE_SUCCESS,
+    Info,
+    ParameterReference,
+    PathItemReference,
+    Response,
+    ResponseReference,
+)
 from ._types import CombinedDict, Missing, Pattern, UniqueList
 
-RESPONSE_SUCCESS = {"description": "OK"}
-PATH_ITEM_SAMPLE = {"get": {"responses": {"default": RESPONSE_SUCCESS}}}
 PARAMETER_SAMPLE = {"name": "sample", "in": "query", "type": "string"}
-
-
-@dataclass
-class PathItemReference:
-    def map_value(self, value: dict[str, Any]) -> dict[str, Any]:
-        value["$ref"] = "#/x-paths/Entry"
-        return value
-
-
-@dataclass
-class ParameterReference:
-    def map_value(self, value: dict[str, Any]) -> dict[str, Any]:
-        value["$ref"] = "#/parameters/SampleParameter"
-        return value
-
-    def __hash__(self) -> int:
-        return hash(("$ref", "#/parameters/SampleParameter"))
-
-
-@dataclass
-class ResponseReference:
-    def map_value(self, value: dict[str, Any]) -> dict[str, Any]:
-        value["$ref"] = "#/responses/Success"
-        return value
-
+ResponseId: TypeAlias = Pattern[r"^([0-9]{3})$|^(default)\Z"]  # type: ignore[type-arg,valid-type]
 
 MediaType = (
     Literal["application/json"]
@@ -70,12 +53,6 @@ class Definitions:
 
 
 @dataclass
-class Info:
-    version: Literal["1.0.0"]
-    title: Literal["Example API"]
-
-
-@dataclass
 class PathItem:
     get: Operation | Missing
     put: Operation | Missing
@@ -100,11 +77,6 @@ class Operation:
         if not value["responses"]:
             value["responses"] = {"default": RESPONSE_SUCCESS}
         return value
-
-
-@dataclass
-class Response:
-    description: Literal["Ok"]
 
 
 @dataclass
@@ -176,4 +148,3 @@ class FormDataParameter:
 Parameter = BodyParameter | QueryParameter | HeaderParameter | PathParameter | FormDataParameter
 ParameterList: TypeAlias = UniqueList[Parameter | ParameterReference]  # type: ignore[type-arg]
 MediaTypeList: TypeAlias = UniqueList[MediaType]  # type: ignore[type-arg]
-ResponseId: TypeAlias = Pattern["^([0-9]{3})$|^(default)$"]  # type: ignore[type-arg,valid-type]

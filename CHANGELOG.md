@@ -5,6 +5,7 @@
 **Added**
 
 - Generating response references inside operations in Open API 2.0
+- Generating basic Open API 3.0 documents
 
 **Fixed**
 
