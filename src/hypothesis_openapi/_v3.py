@@ -19,7 +19,7 @@ ResponseId: TypeAlias = Pattern[r"^[1-5](?:[0-9]{2}|XX)$|^(default)\Z"]  # type:
 
 @dataclass
 class OpenApi30:
-    openapi: Pattern["^3\\.0\\.\\d$"]  # type: ignore[type-arg,valid-type]
+    openapi: Pattern[r"^3\.0\.[0-9]\Z"]  # type: ignore[type-arg,valid-type]
     info: Info
     paths: dict[Pattern["^/"], PathItem | PathItemReference]  # type: ignore[type-arg,valid-type]
 

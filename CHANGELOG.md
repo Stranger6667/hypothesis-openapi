@@ -2,6 +2,10 @@
 
 ## [Unreleased] - TBD
 
+**Fixed**
+
+- Value for the `openapi` field.
+
 ## [0.2.0] - 2024-07-10
 
 **Added**
