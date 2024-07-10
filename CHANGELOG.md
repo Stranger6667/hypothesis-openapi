@@ -2,6 +2,8 @@
 
 ## [Unreleased] - TBD
 
+## [0.2.1] - 2024-07-10
+
 **Fixed**
 
 - Value for the `openapi` field.
@@ -23,5 +25,6 @@
 
 - Initial public release
 
-[Unreleased]: https://github.com/Stranger6667/hypothesis-openapi/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/Stranger6667/hypothesis-openapi/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/Stranger6667/hypothesis-openapi/compare/v0.2.1...v0.2.1
 [0.2.0]: https://github.com/Stranger6667/hypothesis-openapi/compare/v0.1.0...v0.2.0
