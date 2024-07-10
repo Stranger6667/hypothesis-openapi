@@ -6,6 +6,7 @@
 
 - Value for the `openapi` field.
 - Non-uniqueness in generated parameter.
+- Missing referenced values for Open API 3.0.
 
 ## [0.2.0] - 2024-07-10
 

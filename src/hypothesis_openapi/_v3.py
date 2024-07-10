@@ -7,14 +7,17 @@ from typing import Any, Literal, TypeAlias
 from ._common import (
     RESPONSE_SUCCESS,
     Info,
-    ParameterReference,
+    reference,
+    PATH_ITEM_SAMPLE,
     PathItemReference,
     Response,
-    ResponseReference,
 )
 from ._types import Missing, Pattern, UniqueList
 
+PARAMETER_SAMPLE = {"name": "sample", "in": "query", "schema": {"type": "string"}}
 ResponseId: TypeAlias = Pattern[r"^[1-5](?:[0-9]{2}|XX)$|^(default)\Z"]  # type: ignore[type-arg,valid-type]
+ParameterReference = reference("#/components/parameters/SampleParameter")
+ResponseReference = reference("#/components/responses/Success")
 
 
 @dataclass
@@ -22,6 +25,14 @@ class OpenApi30:
     openapi: Pattern[r"^3\.0\.[0-9]\Z"]  # type: ignore[type-arg,valid-type]
     info: Info
     paths: dict[Pattern["^/"], PathItem | PathItemReference]  # type: ignore[type-arg,valid-type]
+
+    def map_value(self, value: dict[str, Any]) -> dict[str, Any]:
+        value["x-paths"] = {"Entry": PATH_ITEM_SAMPLE}
+        value["components"] = {
+            "parameters": {"SampleParameter": PARAMETER_SAMPLE},
+            "responses": {"Success": RESPONSE_SUCCESS},
+        }
+        return value
 
 
 @dataclass
@@ -42,7 +53,7 @@ class Operation:
     operationId: str | Missing
     parameters: ParameterList | Missing
     tags: UniqueList[str] | Missing  # type: ignore[type-arg,valid-type]
-    responses: dict[ResponseId, Response | ResponseReference]
+    responses: dict[ResponseId, Response | ResponseReference]  # type: ignore[valid-type]
 
     def map_value(self, value: dict[str, Any]) -> dict[str, Any]:
         if not value["responses"]:
@@ -71,4 +82,4 @@ class Parameter:
         return hash((self.name, self.in_))
 
 
-ParameterList: TypeAlias = UniqueList[Parameter | ParameterReference]  # type: ignore[type-arg]
+ParameterList: TypeAlias = UniqueList[Parameter | ParameterReference]  # type: ignore[type-arg,valid-type]
