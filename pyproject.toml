@@ -1,6 +1,6 @@
 [project]
 name = "hypothesis-openapi"
-version = "0.1.0"
+version = "0.2.0"
 description = "Hypothesis plugin for generating valid Open API documents"
 keywords = ["hypothesis", "openapi", "testing"]
 classifiers = [
