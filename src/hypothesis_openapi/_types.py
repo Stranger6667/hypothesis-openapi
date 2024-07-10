@@ -11,7 +11,7 @@ class Pattern:
 
 class UniqueList:
     def __class_getitem__(cls, inner: type) -> object:
-        strategy = st.lists(st.from_type(inner), unique=True)
+        strategy = st.lists(st.from_type(inner), unique_by=hash)
         return Annotated[list, strategy]
 
 
