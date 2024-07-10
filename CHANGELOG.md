@@ -11,7 +11,7 @@
 
 **Fixed**
 
-- Allow generating parameters with the same name buy different locations
+- Allow generating parameters with the same name but different locations
 
 ## [0.1.0] - 2024-05-15
 
