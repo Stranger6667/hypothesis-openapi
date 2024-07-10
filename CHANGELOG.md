@@ -5,6 +5,7 @@
 **Fixed**
 
 - Value for the `openapi` field.
+- Non-uniqueness in generated parameter.
 
 ## [0.2.0] - 2024-07-10
 
