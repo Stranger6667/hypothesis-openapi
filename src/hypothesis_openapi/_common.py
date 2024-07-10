@@ -1,6 +1,6 @@
 # ruff: noqa: F722, F821
 from dataclasses import dataclass
-from typing import Any, Literal
+from typing import Any, Literal, Type
 
 
 @dataclass
@@ -17,25 +17,21 @@ class PathItemReference:
 
 
 @dataclass
-class ParameterReference:
-    def map_value(self, value: dict[str, Any]) -> dict[str, Any]:
-        value["$ref"] = "#/parameters/SampleParameter"
-        return value
-
-    def __hash__(self) -> int:
-        return hash(("$ref", "#/parameters/SampleParameter"))
-
-
-@dataclass
 class Response:
     description: Literal["Ok"]
 
 
-@dataclass
-class ResponseReference:
-    def map_value(self, value: dict[str, Any]) -> dict[str, Any]:
-        value["$ref"] = "#/responses/Success"
-        return value
+def reference(ref: str) -> Type:
+    @dataclass
+    class ReferenceValue:
+        def map_value(self, value: dict[str, Any]) -> dict[str, Any]:
+            value["$ref"] = ref
+            return value
+
+        def __hash__(self) -> int:
+            return hash(("$ref", ref))
+
+    return ReferenceValue
 
 
 RESPONSE_SUCCESS = {"description": "OK"}

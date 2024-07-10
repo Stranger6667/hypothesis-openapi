@@ -8,15 +8,16 @@ from ._common import (
     PATH_ITEM_SAMPLE,
     RESPONSE_SUCCESS,
     Info,
-    ParameterReference,
+    reference,
     PathItemReference,
     Response,
-    ResponseReference,
 )
 from ._types import CombinedDict, Missing, Pattern, UniqueList
 
 PARAMETER_SAMPLE = {"name": "sample", "in": "query", "type": "string"}
 ResponseId: TypeAlias = Pattern[r"^([0-9]{3})$|^(default)\Z"]  # type: ignore[type-arg,valid-type]
+ParameterReference = reference("#/parameters/SampleParameter")
+ResponseReference = reference("#/responses/Success")
 
 MediaType = (
     Literal["application/json"]
@@ -71,7 +72,7 @@ class Operation:
     tags: UniqueList[str] | Missing  # type: ignore[type-arg,valid-type]
     consumes: MediaTypeList | Missing
     produces: MediaTypeList | Missing
-    responses: dict[ResponseId, Response | ResponseReference]
+    responses: dict[ResponseId, Response | ResponseReference]  # type: ignore[valid-type]
 
     def map_value(self, value: dict[str, Any]) -> dict[str, Any]:
         if not value["responses"]:
@@ -146,5 +147,5 @@ class FormDataParameter:
 
 
 Parameter = BodyParameter | QueryParameter | HeaderParameter | PathParameter | FormDataParameter
-ParameterList: TypeAlias = UniqueList[Parameter | ParameterReference]  # type: ignore[type-arg]
+ParameterList: TypeAlias = UniqueList[Parameter | ParameterReference]  # type: ignore[type-arg, valid-type]
 MediaTypeList: TypeAlias = UniqueList[MediaType]  # type: ignore[type-arg]

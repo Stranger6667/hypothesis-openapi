@@ -31,6 +31,7 @@ dependencies = [
 tests = [
     "coverage>=7",
     "jsonschema>=4.21.0",
+    "referencing>=0.35",
     "pytest>=6.2.0,<8",
     "pytest-xdist>=2.5,<3.0",
 ]
