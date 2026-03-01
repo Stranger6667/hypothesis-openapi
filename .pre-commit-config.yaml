@@ -1,11 +1,10 @@
 default_language_version:
-  python: python3.10
+  python: python3.13
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
-      - id: check-yaml
       - id: end-of-file-fixer
       - id: trailing-whitespace
         exclude: ^.*\.md$
@@ -19,6 +18,11 @@ repos:
     hooks:
       - id: gitlint
 
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.38.0
+    hooks:
+      - id: yamllint
+
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.19.1
     hooks:
@@ -30,8 +34,5 @@ repos:
     rev: v0.15.4
     hooks:
       - id: ruff-format
-
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.4
-    hooks:
-      - id: ruff
+      - id: ruff-check
+        args: [--fix]

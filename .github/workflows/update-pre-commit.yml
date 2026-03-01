@@ -19,8 +19,8 @@ jobs:
           fetch-depth: 1
           submodules: true
 
-      - run: pip install pre-commit
-      - run: pre-commit autoupdate
+      - uses: astral-sh/setup-uv@v7
+      - run: uvx prek auto-update
 
       - name: Open pull request
         uses: peter-evans/create-pull-request@v7

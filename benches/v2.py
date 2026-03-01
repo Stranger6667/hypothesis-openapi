@@ -1,6 +1,5 @@
 import pytest
-
-from hypothesis import HealthCheck, given, settings, Phase, Verbosity, seed
+from hypothesis import HealthCheck, Phase, Verbosity, given, seed, settings
 
 from hypothesis_openapi import openapis
 

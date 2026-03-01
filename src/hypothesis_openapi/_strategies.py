@@ -1,8 +1,10 @@
 from typing import Any, Literal
+
 from hypothesis import strategies as st
+
+from ._serialize import asdict
 from ._v2 import Swagger
 from ._v3 import OpenApi30
-from ._serialize import asdict
 
 
 def openapis(version: Literal["2.0"] | Literal["3.0"] | Literal["3.1"]) -> "st.SearchStrategy[dict[str, Any]]":

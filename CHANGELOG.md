@@ -2,6 +2,10 @@
 
 ## [Unreleased] - TBD
 
+**Added**
+
+- Python 3.13 and 3.14 support
+
 ## [0.2.1] - 2024-07-10
 
 **Fixed**

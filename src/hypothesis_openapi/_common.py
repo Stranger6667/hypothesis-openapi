@@ -1,6 +1,6 @@
 # ruff: noqa: F722, F821
 from dataclasses import dataclass
-from typing import Any, Literal, Type
+from typing import Any, Literal
 
 
 @dataclass
@@ -21,7 +21,7 @@ class Response:
     description: Literal["Ok"]
 
 
-def reference(ref: str) -> Type:
+def reference(ref: str) -> type:
     @dataclass
     class ReferenceValue:
         def map_value(self, value: dict[str, Any]) -> dict[str, Any]:
