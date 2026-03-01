@@ -5,6 +5,15 @@
 **Added**
 
 - Python 3.13 and 3.14 support
+- v3 `requestBody` generation with `application/json`, `multipart/form-data`, and `application/x-www-form-urlencoded` content types
+- v3 parameter `style` (`form`, `simple`, `label`, `matrix`, `spaceDelimited`, `pipeDelimited`, `deepObject`)
+- v3 richer parameter schemas: string, array, and object
+- v3 operation `security` and `deprecated`
+- v3 `securitySchemes` in `components`
+- v2 `securityDefinitions` with apiKey schemes
+- v2 operation `security` and `deprecated`
+- v2 `collectionFormat` for array query and form-data parameters
+- v2 `items` injection for array-typed parameters
 
 ## [0.2.1] - 2024-07-10
 

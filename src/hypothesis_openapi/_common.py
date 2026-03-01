@@ -2,6 +2,8 @@
 from dataclasses import dataclass
 from typing import Any, Literal
 
+DEFAULT_SECURITY_SCHEME = "DefaultApiKey"
+
 
 @dataclass
 class Info:
@@ -19,6 +21,23 @@ class PathItemReference:
 @dataclass
 class Response:
     description: Literal["Ok"]
+
+
+@dataclass
+class ApiKeyScheme:
+    name: str
+    in_: Literal["header", "query"]
+
+    def map_value(self, value: dict[str, Any]) -> dict[str, Any]:
+        value["type"] = "apiKey"
+        value["in"] = value.pop("in_")
+        return value
+
+
+@dataclass
+class OperationSecurityRequirement:
+    def map_value(self, value: dict[str, Any]) -> list:
+        return [{DEFAULT_SECURITY_SCHEME: []}]
 
 
 def reference(ref: str) -> type:
