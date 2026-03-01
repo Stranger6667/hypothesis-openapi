@@ -5,12 +5,12 @@ from dataclasses import dataclass
 from typing import Any, Literal, TypeAlias
 
 from ._common import (
+    PATH_ITEM_SAMPLE,
     RESPONSE_SUCCESS,
     Info,
-    reference,
-    PATH_ITEM_SAMPLE,
     PathItemReference,
     Response,
+    reference,
 )
 from ._types import Missing, Pattern, UniqueList
 

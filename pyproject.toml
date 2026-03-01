@@ -14,6 +14,8 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Programming Language :: Python :: Implementation :: CPython",
     "Topic :: Software Development :: Testing",
 ]
@@ -24,7 +26,7 @@ license = "MIT"
 include = ["src/hypothesis_openapi/py.typed"]
 requires-python = ">=3.10"
 dependencies = [
-    "hypothesis>=6.84.3,<7.0",
+    "hypothesis>=6.108.0,<7",
 ]
 
 [project.optional-dependencies]
@@ -32,15 +34,15 @@ tests = [
     "coverage>=7",
     "jsonschema>=4.21.0",
     "referencing>=0.35",
-    "pytest>=6.2.0,<8",
-    "pytest-xdist>=2.5,<3.0",
+    "pytest>=8,<10",
+    "pytest-xdist>=3,<4.0",
 ]
 cov = [
     "coverage-enable-subprocess",
     "coverage[toml]>=7",
 ]
 bench = [
-    "pytest-codspeed==2.2.1",
+    "pytest-codspeed==4.2.0",
 ]
 dev = ["hypothesis_openapi[tests,cov,bench]"]
 
@@ -80,27 +82,32 @@ target-version = "py310"
 
 [tool.ruff.lint]
 select = [
-    "E",  # pycodestyle errors
-    "W",  # pycodestyle warnings
-    "F",  # pyflakes
-    "C",  # flake8-comprehensions
-    "B",  # flake8-bugbear
-    "D",  # pydocstyle
+    "E",      # pycodestyle errors
+    "W",      # pycodestyle warnings
+    "F",      # pyflakes
+    "C",      # flake8-comprehensions
+    "B",      # flake8-bugbear
+    "D",      # pydocstyle
+    "I",      # isort
+    "UP",     # pyupgrade
+    "FURB",   # refurb
+    "PGH003", # blanket-type-ignore
 ]
 ignore = [
-    "E501",  # Line too long
-    "B008",  # Do not perform function calls in argument defaults
-    "C901",  # Too complex
-    "D100",  # Missing docstring in public module
-    "D101",  # Missing docstring in public class
-    "D102",  # Missing docstring in public method
-    "D103",  # Missing docstring in public function
-    "D104",  # Missing docstring in public package
-    "D105",  # Missing docstring in magic method
-    "D107",  # Missing docstring in `__init__`
-    "D203",  # One blank line before class
-    "D213",  # Multiline summary second line
-    "D401",  # Imperative mood
+    "E501",   # Line too long
+    "B008",   # Do not perform function calls in argument defaults
+    "C901",   # Too complex
+    "D100",   # Missing docstring in public module
+    "D101",   # Missing docstring in public class
+    "D102",   # Missing docstring in public method
+    "D103",   # Missing docstring in public function
+    "D104",   # Missing docstring in public package
+    "D105",   # Missing docstring in magic method
+    "D107",   # Missing docstring in `__init__`
+    "D203",   # One blank line before class
+    "D213",   # Multiline summary second line
+    "D401",   # Imperative mood
+    "COM812", # trailing comma
 ]
 
 [tool.ruff.format]
@@ -108,6 +115,10 @@ skip-magic-trailing-comma = false
 
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401"]
+# _v2.py/_v3.py use dict literals inside type annotations as a Hypothesis strategy trick;
+# FURB rules can corrupt these by removing quotes from string keys.
+"_v2.py" = ["FURB"]
+"_v3.py" = ["FURB"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["hypothesis_openapi"]

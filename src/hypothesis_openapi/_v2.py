@@ -8,9 +8,9 @@ from ._common import (
     PATH_ITEM_SAMPLE,
     RESPONSE_SUCCESS,
     Info,
-    reference,
     PathItemReference,
     Response,
+    reference,
 )
 from ._types import CombinedDict, Missing, Pattern, UniqueList
 
@@ -18,6 +18,11 @@ PARAMETER_SAMPLE = {"name": "sample", "in": "query", "type": "string"}
 ResponseId: TypeAlias = Pattern[r"^([0-9]{3})$|^(default)\Z"]  # type: ignore[type-arg,valid-type]
 ParameterReference = reference("#/parameters/SampleParameter")
 ResponseReference = reference("#/responses/Success")
+
+# Named dicts used as CombinedDict defaults — must NOT be inline dict literals inside
+# annotations, as ruff transforms {"Key": val} → {Key: val} (undefined name) in that context.
+_PARAMETER_DEFAULTS = {"SampleParameter": PARAMETER_SAMPLE}
+_RESPONSE_DEFAULTS = {"Success": RESPONSE_SUCCESS}
 
 MediaType = (
     Literal["application/json"]
@@ -39,8 +44,8 @@ class Swagger:
     paths: dict[Pattern["^/"], PathItem | PathItemReference]  # type: ignore[type-arg,valid-type]
     consumes: MediaTypeList | Missing
     produces: MediaTypeList | Missing
-    parameters: CombinedDict[str, Parameter, {"SampleParameter": PARAMETER_SAMPLE}]  # type: ignore[type-arg,valid-type]
-    responses: CombinedDict[ResponseId, Response, {"Success": RESPONSE_SUCCESS}]  # type: ignore[type-arg,valid-type]
+    parameters: CombinedDict[str, Parameter, _PARAMETER_DEFAULTS]  # type: ignore[type-arg,valid-type]
+    responses: CombinedDict[ResponseId, Response, _RESPONSE_DEFAULTS]  # type: ignore[type-arg,valid-type]
     definitions: Definitions
 
     def map_value(self, value: dict[str, Any]) -> dict[str, Any]:
