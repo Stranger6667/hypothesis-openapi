@@ -2,6 +2,8 @@
 
 ## [Unreleased] - TBD
 
+## [0.3.0] - 2026-03-01
+
 **Added**
 
 - Python 3.13 and 3.14 support
@@ -38,6 +40,7 @@
 
 - Initial public release
 
-[Unreleased]: https://github.com/Stranger6667/hypothesis-openapi/compare/v0.2.1...HEAD
-[0.2.1]: https://github.com/Stranger6667/hypothesis-openapi/compare/v0.2.1...v0.2.1
+[Unreleased]: https://github.com/Stranger6667/hypothesis-openapi/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/Stranger6667/hypothesis-openapi/compare/v0.2.1...v0.3.0
+[0.2.1]: https://github.com/Stranger6667/hypothesis-openapi/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/Stranger6667/hypothesis-openapi/compare/v0.1.0...v0.2.0
