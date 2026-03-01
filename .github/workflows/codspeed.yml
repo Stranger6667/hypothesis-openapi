@@ -12,16 +12,16 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v6.0.2
-      - uses: actions/setup-python@v6
+      - uses: astral-sh/setup-uv@v7
         with:
-          # Python 3.12 for flamegraph support
-          python-version: "3.12"
+          python-version: "3.14"
 
       - name: Install dependencies
-        run: pip install ".[bench]"
+        run: uv sync --extra bench
 
       - name: Run benchmarks
-        uses: CodSpeedHQ/action@v3
+        uses: CodSpeedHQ/action@v4
         with:
           token: ${{ secrets.CODSPEED_TOKEN }}
-          run: pytest benches/* --codspeed
+          run: uv run pytest benches/* --codspeed
+          mode: simulation
