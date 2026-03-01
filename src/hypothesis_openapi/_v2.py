@@ -5,9 +5,12 @@ from dataclasses import dataclass, field
 from typing import Any, Literal, TypeAlias
 
 from ._common import (
+    DEFAULT_SECURITY_SCHEME,
     PATH_ITEM_SAMPLE,
     RESPONSE_SUCCESS,
+    ApiKeyScheme,
     Info,
+    OperationSecurityRequirement,
     PathItemReference,
     Response,
     reference,
@@ -23,6 +26,9 @@ ResponseReference = reference("#/responses/Success")
 # annotations, as ruff transforms {"Key": val} → {Key: val} (undefined name) in that context.
 _PARAMETER_DEFAULTS = {"SampleParameter": PARAMETER_SAMPLE}
 _RESPONSE_DEFAULTS = {"Success": RESPONSE_SUCCESS}
+_SECURITY_DEFAULTS = {DEFAULT_SECURITY_SCHEME: {"type": "apiKey", "name": "X-Api-Key", "in": "header"}}
+
+SecurityScheme = ApiKeyScheme
 
 MediaType = (
     Literal["application/json"]
@@ -47,6 +53,7 @@ class Swagger:
     parameters: CombinedDict[str, Parameter, _PARAMETER_DEFAULTS]  # type: ignore[type-arg,valid-type]
     responses: CombinedDict[ResponseId, Response, _RESPONSE_DEFAULTS]  # type: ignore[type-arg,valid-type]
     definitions: Definitions
+    securityDefinitions: CombinedDict[str, SecurityScheme, _SECURITY_DEFAULTS] | Missing  # type: ignore[type-arg,valid-type]
 
     def map_value(self, value: dict[str, Any]) -> dict[str, Any]:
         value["x-paths"] = {"Entry": PATH_ITEM_SAMPLE}
@@ -78,6 +85,8 @@ class Operation:
     consumes: MediaTypeList | Missing
     produces: MediaTypeList | Missing
     responses: dict[ResponseId, Response | ResponseReference]  # type: ignore[valid-type]
+    security: OperationSecurityRequirement | Missing
+    deprecated: bool | Missing
 
     def map_value(self, value: dict[str, Any]) -> dict[str, Any]:
         if not value["responses"]:
@@ -102,9 +111,14 @@ class BodyParameter:
 class QueryParameter:
     name: str
     type: Literal["string", "number", "boolean", "integer", "array"]
+    collectionFormat: Literal["csv", "ssv", "tsv", "pipes"] | Missing
 
     def map_value(self, value: dict[str, Any]) -> dict[str, Any]:
         value["in"] = "query"
+        if value["type"] == "array":
+            value["items"] = {"type": "string"}
+        elif "collectionFormat" in value:
+            del value["collectionFormat"]
         return value
 
     def __hash__(self) -> int:
@@ -118,6 +132,8 @@ class HeaderParameter:
 
     def map_value(self, value: dict[str, Any]) -> dict[str, Any]:
         value["in"] = "header"
+        if value["type"] == "array":
+            value["items"] = {"type": "string"}
         return value
 
     def __hash__(self) -> int:
@@ -132,6 +148,8 @@ class PathParameter:
     def map_value(self, value: dict[str, Any]) -> dict[str, Any]:
         value["in"] = "path"
         value["required"] = True
+        if value["type"] == "array":
+            value["items"] = {"type": "string"}
         return value
 
     def __hash__(self) -> int:
@@ -142,9 +160,14 @@ class PathParameter:
 class FormDataParameter:
     name: str
     type: Literal["string", "number", "boolean", "integer", "array", "file"]
+    collectionFormat: Literal["csv", "ssv", "tsv", "pipes"] | Missing
 
     def map_value(self, value: dict[str, Any]) -> dict[str, Any]:
         value["in"] = "formData"
+        if value["type"] == "array":
+            value["items"] = {"type": "string"}
+        elif "collectionFormat" in value:
+            del value["collectionFormat"]
         return value
 
     def __hash__(self) -> int:
