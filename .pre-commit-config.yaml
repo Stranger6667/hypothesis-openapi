@@ -1,13 +1,14 @@
 default_language_version:
-  python: python3.13
+  python: python3.11
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
+      - id: check-yaml
       - id: end-of-file-fixer
       - id: trailing-whitespace
-        exclude: ^.*\.md$
+        exclude: ^.*\.(md|rst)$
       - id: debug-statements
       - id: mixed-line-ending
         args: [--fix=lf]
@@ -23,16 +24,41 @@ repos:
     hooks:
       - id: yamllint
 
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v2.3.1
+  - repo: https://github.com/Mateusz-Grzelinski/actionlint-py
+    rev: v1.7.12.25
+    hooks:
+      - id: actionlint
+        # CI runners ship shellcheck, so pin it here too or the hook is stricter on CI than locally.
+        additional_dependencies: [shellcheck-py==0.11.0.1]
+
+  - repo: https://github.com/zizmorcore/zizmor-pre-commit
+    rev: v1.32.0
+    hooks:
+      - id: zizmor
+        # Offline keeps the hook deterministic; online audits would need a GitHub token.
+        args: [--no-progress, --offline]
+
+  - repo: https://github.com/crate-ci/typos
+    rev: v1.52.2
+    hooks:
+      - id: typos
+        # Report, don't rewrite
+        args: [--force-exclude]
+
+  - repo: local
     hooks:
       - id: mypy
-        exclude: ^(tests|benches)/.*$
-        args: ["--ignore-missing-imports"]
+        name: mypy
+        # Installs the project with its dependencies, so third-party types are checked.
+        entry: uvx --python 3.11 --with-editable=. mypy==2.4.0
+        language: system
+        types_or: [python, pyi]
+        require_serial: true
+        exclude: ^(tests|benches)/
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.16.4
+    rev: v0.17.6
     hooks:
       - id: ruff-format
       - id: ruff-check
-        args: [--fix]
+        args: [--fix, --show-fixes]

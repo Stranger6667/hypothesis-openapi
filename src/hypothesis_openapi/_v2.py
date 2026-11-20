@@ -2,7 +2,9 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, Literal, TypeAlias
+from typing import Annotated, Any, Literal, TypeAlias
+
+from hypothesis import strategies as st
 
 from ._common import (
     DEFAULT_SECURITY_SCHEME,
@@ -81,7 +83,7 @@ class PathItem:
 class Operation:
     operationId: str | Missing
     parameters: ParameterList | Missing
-    tags: UniqueList[str] | Missing  # type: ignore[type-arg,valid-type]
+    tags: UniqueList[str] | Missing  # type: ignore[type-arg]
     consumes: MediaTypeList | Missing
     produces: MediaTypeList | Missing
     responses: dict[ResponseId, Response | ResponseReference]  # type: ignore[valid-type]
@@ -97,7 +99,8 @@ class Operation:
 @dataclass
 class BodyParameter:
     name: str
-    schema: dict = field(default_factory=dict)
+    # Bare `dict` resolves to `builds(dict)`, i.e. always an empty schema
+    schema: Annotated[dict[str, Any], st.builds(dict)] = field(default_factory=dict)
 
     def map_value(self, value: dict[str, Any]) -> dict[str, Any]:
         value["in"] = "body"

@@ -36,7 +36,7 @@ class ApiKeyScheme:
 
 @dataclass
 class OperationSecurityRequirement:
-    def map_value(self, value: dict[str, Any]) -> list:
+    def map_value(self, value: dict[str, Any]) -> list[dict[str, list[str]]]:
         return [{DEFAULT_SECURITY_SCHEME: []}]
 
 
