@@ -1,6 +1,6 @@
 [project]
 name = "hypothesis-openapi"
-version = "0.3.0"
+dynamic = ["version"]
 description = "Hypothesis plugin for generating valid Open API documents"
 keywords = ["hypothesis", "openapi", "testing"]
 classifiers = [
@@ -11,40 +11,36 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
     "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
     "Topic :: Software Development :: Testing",
+    "Typing :: Typed",
 ]
 authors = [{ name = "Dmitry Dygalo", email = "dmitry@dygalo.dev" }]
 maintainers = [{ name = "Dmitry Dygalo", email = "dmitry@dygalo.dev" }]
 readme = "README.md"
 license = "MIT"
-include = ["src/hypothesis_openapi/py.typed"]
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
     "hypothesis>=6.108.0,<7",
 ]
 
 [project.optional-dependencies]
 tests = [
-    "coverage>=7",
+    "coverage[toml]>=7.2",
     "jsonschema>=4.21.0",
     "referencing>=0.35",
-    "pytest>=8,<10",
-    "pytest-xdist>=3,<4.0",
-]
-cov = [
-    "coverage-enable-subprocess",
-    "coverage[toml]>=7",
+    "pytest>=8",
 ]
 bench = [
     "pytest-codspeed==4.2.0",
 ]
-dev = ["hypothesis_openapi[tests,cov,bench]"]
+dev = ["hypothesis_openapi[tests,bench]"]
 
 [project.urls]
 Changelog = "https://github.com/Stranger6667/hypothesis-openapi/blob/main/CHANGELOG.md"
@@ -52,11 +48,16 @@ Changelog = "https://github.com/Stranger6667/hypothesis-openapi/blob/main/CHANGE
 Funding = "https://github.com/sponsors/Stranger6667"
 "Source Code" = "https://github.com/Stranger6667/hypothesis-openapi"
 
+[tool.hatch.version]
+path = "src/hypothesis_openapi/__init__.py"
+
 [tool.hatch.build.targets.sdist]
-include = [
-  "/src",
-  "/test",
-]
+include = ["/src", "/tests"]
+
+[tool.pytest.ini_options]
+addopts = ["-ra", "--strict-markers", "--strict-config"]
+xfail_strict = true
+testpaths = ["tests"]
 
 [tool.coverage.run]
 parallel = true
@@ -64,12 +65,13 @@ branch = true
 source_pkgs = ["hypothesis_openapi"]
 
 [tool.coverage.paths]
-source = ["src", ".tox/*/site-packages"]
+source = ["src", ".tox/*/site-packages", ".tox/*/lib/*/site-packages", ".tox/*/Lib/site-packages"]
 
 [tool.coverage.report]
 show_missing = true
 skip_covered = true
 precision = 2
+fail_under = 100
 exclude_lines = [
     "raise NotImplementedError",
     "if TYPE_CHECKING:",

@@ -2,6 +2,14 @@
 
 ## [Unreleased] - TBD
 
+**Added**
+
+- Python 3.15 and PyPy support
+
+**Removed**
+
+- Python 3.10 support
+
 ## [0.3.0] - 2026-03-01
 
 **Added**
