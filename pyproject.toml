@@ -44,7 +44,7 @@ dev = ["hypothesis_openapi[tests,bench]"]
 
 [project.urls]
 Changelog = "https://github.com/Stranger6667/hypothesis-openapi/blob/main/CHANGELOG.md"
-"Bug Tracker" = "https://github.com/Stranger6667/hypothesis-openapi"
+"Bug Tracker" = "https://github.com/Stranger6667/hypothesis-openapi/issues"
 Funding = "https://github.com/sponsors/Stranger6667"
 "Source Code" = "https://github.com/Stranger6667/hypothesis-openapi"
 
