@@ -25,9 +25,9 @@ RequestBodyMediaType = (
     Literal["application/json"] | Literal["application/x-www-form-urlencoded"] | Literal["multipart/form-data"]
 )
 
-_REQUEST_BODY_DEFAULTS: dict[str, dict] = {"application/json": {"schema": {}}}
+_REQUEST_BODY_DEFAULTS: dict[str, dict[str, Any]] = {"application/json": {"schema": {}}}
 
-_VALID_STYLES: dict[str, frozenset] = {
+_VALID_STYLES: dict[str, frozenset[str]] = {
     "query": frozenset({"form", "spaceDelimited", "pipeDelimited", "deepObject"}),
     "path": frozenset({"simple", "label", "matrix"}),
     "header": frozenset({"simple"}),
@@ -102,7 +102,7 @@ class PathItem:
 class Operation:
     operationId: str | Missing
     parameters: ParameterList | Missing
-    tags: UniqueList[str] | Missing  # type: ignore[type-arg,valid-type]
+    tags: UniqueList[str] | Missing  # type: ignore[type-arg]
     responses: dict[ResponseId, Response | ResponseReference]  # type: ignore[valid-type]
     requestBody: RequestBody | Missing
     security: OperationSecurityRequirement | Missing
