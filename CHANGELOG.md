@@ -1,6 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/Stranger6667/hypothesis-openapi/compare/v0.3.0...HEAD)
+## [Unreleased](https://github.com/Stranger6667/hypothesis-openapi/compare/v0.4.0...HEAD)
+
+## [0.4.0](https://github.com/Stranger6667/hypothesis-openapi/compare/v0.3.0...v0.4.0) - 2026-11-20
 
 ### Added
 
@@ -9,6 +11,10 @@
 ### Removed
 
 - Support for Python 3.10.
+
+### Fixed
+
+- Missing tests in the source distribution.
 
 ## [0.3.0](https://github.com/Stranger6667/hypothesis-openapi/compare/v0.2.1...v0.3.0) - 2026-03-01
 
